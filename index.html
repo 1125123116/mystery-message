@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一条重要消息</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔐</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            overflow: hidden;
+            text-align: center;
+            padding: 20px;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            max-width: 500px;
+            width: 90%;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        h1 {
+            margin-bottom: 25px;
+            color: #2d3436;
+            font-size: 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        h1 .icon {
+            font-size: 2.5rem;
+        }
+        .countdown-box {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 2px dashed #dfe6e9;
+        }
+        #countdown {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #6c5ce7;
+            margin: 10px 0;
+            font-family: monospace;
+            text-shadow: 2px 2px 0px rgba(108, 92, 231, 0.1);
+        }
+        .hint {
+            color: #636e72;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-top: 25px;
+        }
+        .manual-link {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #eee;
+        }
+        .manual-link a {
+            display: inline-block;
+            background: #6c5ce7;
+            color: white;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.3);
+        }
+        .manual-link a:hover {
+            background: #5b4bd8;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(108, 92, 231, 0.4);
+        }
+        .footer-note {
+            margin-top: 25px;
+            font-size: 0.9rem;
+            color: #b2bec3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="icon">🔮</span> 一封给你的密信</h1>
+        <p>你的朋友为你准备了一条非常重要的消息，正在解密中…</p>
+        
+        <div class="countdown-box">
+            <p>页面将在 <strong id="countdown">5</strong> 秒后自动开启</p>
+            <div class="hint">
+                ⏳ 请勿关闭此页面，精彩即将呈现...
+            </div>
+        </div>
+
+        <div class="manual-link">
+            <p>如果页面没有自动跳转，请点击下方按钮手动开启</p>
+            <!-- ！！！请确保替换下方链接为你自己的目标网址！！！ -->
+            <a href="http://love.piplong.cn/son/" id="targetLink">立即查看消息</a>
+        </div>
+
+        <p class="footer-note">© 此消息仅限你一人查看</p>
+    </div>
+
+    <script>
+        // ===== 核心配置部分 =====
+        // 1. 请确保将下面的网址替换成你的目标网址，前后引号不要删除
+        const targetUrl = "http://love.piplong.cn/son/";
+        // 2. 可以修改倒计时的秒数（默认为5秒）
+        let countdownTime = 5;
+        // ===== 配置结束 =====
+
+        // 更新手动链接的地址
+        document.getElementById('targetLink').href = targetUrl;
+
+        const countdownElement = document.getElementById('countdown');
+        countdownElement.textContent = countdownTime;
+
+        const countdownInterval = setInterval(() => {
+            countdownTime--;
+            countdownElement.textContent = countdownTime;
+
+            if (countdownTime <= 0) {
+                clearInterval(countdownInterval);
+                window.location.href = targetUrl; // 倒计时结束后跳转
+            }
+        }, 1000);
+
+        // 双重保险：即使JS有问题，Meta标签也会在5秒后跳转
+        const metaTag = document.createElement('meta');
+        metaTag.httpEquiv = "refresh";
+        metaTag.content = `5;url=${targetUrl}`;
+        document.getElementsByTagName('head')[0].appendChild(metaTag);
+    </script>
+</body>
+</html>
